@@ -13,9 +13,15 @@ RUN apt-get update \
         && apt-get install -y ros-melodic-turtlebot3* \
         && apt-get install -y python-rosdep \
         && rosdep init \
+	&& apt-get -y install python-pip \
         && apt-get autoremove -y \
         && rm -rf /var/lib/apt/lists/* 
 
+RUN apt-get install -y python-pip \
+        && pip install tensorflow==1.14 \
+	&& pip install keras==2.2.5 \
+	&& pip install h5py \
+        && rm -rf /var/lib/apt/lists/* 
 
 USER user
 WORKDIR /home/user

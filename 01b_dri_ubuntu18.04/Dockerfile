@@ -34,9 +34,17 @@ RUN set -x \
 RUN set -x \
         && apt-get update \
         && apt-get upgrade -y  \
+	&& apt-get -y install python-pip \
         && apt-get install -y libprotobuf-dev protobuf-compiler \
-        && apt-get install -y python3 python3-pip \
-        && rm -rf /var/lib/apt/lists/*
+        && rm -rf /var/lib/apt/lists/* 
+
+RUN apt-get install -y python-pip \
+        && pip install tensorflow==1.14 \
+	&& pip install keras==2.2.5 \
+	&& pip install h5py \
+        && rm -rf /var/lib/apt/lists/* 
+
+
 
 RUN useradd -ms /bin/bash user \
     && echo "user:user" | chpasswd && adduser user sudo \
