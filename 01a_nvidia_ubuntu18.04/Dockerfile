@@ -82,13 +82,8 @@ RUN set -x \
         && apt-get upgrade -y  \
         && apt-get install -y libprotobuf-dev protobuf-compiler \
 	&& apt-get -y install python-pip \
+	&& apt-get -y install iputils-ping \
         && apt-get install -y tmux \
-        && rm -rf /var/lib/apt/lists/*
-
-RUN apt-get install -y python-pip \
-        && pip install tensorflow==1.14 \
-	&& pip install keras==2.2.5 \
-	&& pip install h5py \
         && rm -rf /var/lib/apt/lists/* 
 
 RUN useradd -ms /bin/bash user \
