@@ -1,7 +1,7 @@
 #!/bin/bash
 
 xhost +local:docker
-
+ip="$(hostname -I | cut -d ' ' -f 1)"
 # --device=/dev/video0:/dev/video0
 # For non root usage:
 # RUN sudo usermod -a -G video developer
@@ -9,11 +9,10 @@ xhost +local:docker
 vendor=`glxinfo | grep vendor | grep OpenGL | awk '{ print $4 }'`
 
 if [ $vendor == "NVIDIA" ]; then
-    docker run -it \
+    docker run --privileged  -it --rm\
         --name ros_full_desktop \
-        --hostname basesation \
         --device /dev/snd \
-        --rm \
+		--network host \
         --env="DISPLAY" \
         --env="QT_X11_NO_MITSHM=1" \
         --volume="/tmp/.X11-unix:/tmp/.X11-unix:rw" \
@@ -29,7 +28,7 @@ if [ $vendor == "NVIDIA" ]; then
 else
     docker run --privileged -it --rm \
         --name ros_full_desktop \
-        --hostname basesation \
+		--network host \
         --volume=/tmp/.X11-unix:/tmp/.X11-unix \
         -v `pwd`/../Commands/bin:/home/user/bin \
         -v `pwd`/../ExampleCode:/home/user/ExampleCode \
